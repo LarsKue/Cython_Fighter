@@ -8,6 +8,10 @@ import configparser
 include "enums.pxd"
 include "game.pxd"
 
+cdef bool exit_condition():
+    return False
+
+
 cpdef int main():
 
     # Read the Config
@@ -35,6 +39,6 @@ cpdef int main():
 
     game = Game(config, screen)
 
-    game.run(lambda : False)
+    game.run(exit_condition)
 
     return 0
