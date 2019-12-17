@@ -8,9 +8,6 @@ import configparser
 include "enums.pxd"
 include "game.pxd"
 
-cdef bool exit_condition():
-    return False
-
 
 cpdef int main():
 
@@ -31,7 +28,7 @@ cpdef int main():
     cdef int window_width = config.getint("WINDOW", "width")
     cdef int window_height = config.getint("WINDOW", "height")
 
-    if fullscreen == fullscreenmode.fullscreen:
+    if fullscreen:
         screen = pg.display.set_mode((window_width, window_height), pg.FULLSCREEN)
     else:
         screen = pg.display.set_mode((window_width, window_height))
@@ -39,6 +36,8 @@ cpdef int main():
 
     game = Game(config, screen)
 
-    game.run(exit_condition)
+    game.run()
+
+    pg.quit()
 
     return 0
