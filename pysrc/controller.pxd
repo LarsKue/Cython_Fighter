@@ -6,16 +6,15 @@ cdef class Controller(Object):
     cdef dict actions
 
     # def __init__(self, dict actions):
-    def __init__(self):
+    def __init__(self, actions):
         super().__init__()
-        # self.actions = actions
+        self.actions = actions
 
     cpdef void update(self, size_t delta_t):
-        events = pg.event.get()
-        for event in events:
-            print(type(event))
-            print(event)
-            # if event in self.actions:
-            #     self.actions[event](delta_t)
+        keys = pg.key.get_pressed()
+        print("S?", keys[pg.K_s])
+        for key, pressed in enumerate(keys):
+            if key in self.actions:
+                self.actions[key](delta_t, pressed)
 
 
