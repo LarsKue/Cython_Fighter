@@ -22,7 +22,6 @@ cdef class Object:
 cdef class OM:
 
     cdef objects
-    cdef screen
 
     def __init__(self):
         self.objects = []

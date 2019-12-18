@@ -27,9 +27,16 @@ cdef class Game:
         player = Player("assets/textures/player.png")
         self.om.add_object(player)
 
-
+        i = 0
+        t = 0
         while True:
             dt = self.clock.tick(self.maxfps)
+            i += 1
+            t += dt
+            if t >= 1000:
+                print("FPS:", i)
+                i = 0
+                t = 0
             events = pg.event.get()
 
             for event in events:

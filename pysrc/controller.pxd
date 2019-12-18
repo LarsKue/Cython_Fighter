@@ -12,7 +12,6 @@ cdef class Controller(Object):
 
     cpdef void update(self, size_t delta_t):
         keys = pg.key.get_pressed()
-        print("S?", keys[pg.K_s])
         for key, pressed in enumerate(keys):
             if key in self.actions:
                 self.actions[key](delta_t, pressed)
