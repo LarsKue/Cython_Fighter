@@ -134,3 +134,4 @@ dmypy.json
 # Cython generated files
 pysrc/*.cpp
 pysrc/*.html
+pysrc/*.c

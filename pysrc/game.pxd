@@ -3,25 +3,29 @@ from libcpp cimport bool
 
 import pygame as pg
 
-include "enums.pxd"
-include "om.pxd"
+# from om cimport OM
+
+include "player.pxd"
 
 cdef class Game:
 
     cdef config
     cdef screen
-    cdef __om
+    cdef OM om
     cdef clock
     cdef size_t maxfps
 
     def __init__(self, config, screen, *, maxfps=0):
         self.config = config
         self.screen = screen
-        self.__om = om(screen)
+        self.om = OM()
         self.clock = pg.time.Clock()
         self.maxfps = self.config.getint("WINDOW", "maxfps")
 
-    cdef void run(self):
+    cpdef void run(self):
+
+        player = Player("assets/textures/player.png")
+        self.om.add_object(player)
 
 
         while True:
@@ -32,7 +36,8 @@ cdef class Game:
                 if event.type == pg.QUIT:
                     return
 
-            self.__om.update(dt)
+            self.om.update(dt)
+            self.om.draw(self.screen)
 
 
 

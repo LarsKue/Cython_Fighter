@@ -5,7 +5,6 @@ from libcpp cimport bool
 import pygame as pg
 import configparser
 
-include "enums.pxd"
 include "game.pxd"
 
 

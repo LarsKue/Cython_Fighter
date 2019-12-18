@@ -14,9 +14,10 @@ class Object {
 
     Object() = default;
 
-    void update(std::size_t delta_t) {};
+    void update(std::size_t delta_t) {}
 
-    void draw() {};
+    void draw() {}
+
 };
 
 #endif //CYTHON_FIGHTER_OBJECT_H

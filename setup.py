@@ -33,6 +33,8 @@ extensions = [Extension(module_name, python_sources + cpp_sources, include_dirs=
 
 setup(
     name=module_name,
+    version="0.0.1",
+    url="https://github.com/LarsKue/Cython_Fighter",
     ext_modules=cythonize(extensions,
                           annotate=True,
                           compiler_directives={"language_level": "3"},

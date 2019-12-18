@@ -1,31 +1,44 @@
 
-from libcpp.vector cimport vector
 
 import pygame as pg
-include "enums.pxd"
 
-cdef extern from "Object.h":
-    cdef cppclass Object:
-        Object()
+# cdef extern from "Object.h" nogil:
+#     cdef cppclass Object:
+#         Object()
+#
+#         void update(self, size_t delta_t)
+#         void draw(self)
 
-        void update(size_t delta_t)
-        void draw()
+cdef class Object:
+    def __init__(self):
+        pass
 
-cdef class om:
+    cpdef void update(self, size_t delta_t):
+        pass
+
+    cpdef void draw(self, screen):
+        pass
+
+cdef class OM:
 
     cdef objects
     cdef screen
 
-    def __init__(self, screen):
+    def __init__(self):
         self.objects = []
-        self.screen = screen
+
+    cpdef void add_object(self, ob):
+        self.objects.append(ob)
 
     cpdef void update(self, size_t delta_t):
-        print("dt =", delta_t)
+        for o in self.objects:
+            o.update(delta_t)
 
-    cpdef void draw(self):
-        self.screen.fill(Color.black)
+    cpdef void draw(self, screen):
+        screen.fill((0, 0, 0))
 
         # draw objects here
+        for o in self.objects:
+            o.draw(screen)
 
         pg.display.update()
