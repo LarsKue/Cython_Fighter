@@ -33,8 +33,8 @@ cdef class Player(Object):
             nonlocal self
             self.physics.velocity.x = 0.5 * state
 
-
-        self.controller = Controller(actions={pg.K_w: w, pg.K_a: a, pg.K_s: s, pg.K_d: d})
+        self.controller = Controller()
+        # self.controller = Controller(actions={pg.K_w: w, pg.K_a: a, pg.K_s: s, pg.K_d: d})
 
     cpdef void update(self, size_t delta_t):
         self.controller.update(delta_t)

@@ -135,3 +135,6 @@ dmypy.json
 pysrc/*.cpp
 pysrc/*.html
 pysrc/*.c
+
+# profiling files
+*.prof

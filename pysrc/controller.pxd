@@ -1,19 +1,28 @@
 
 include "om.pxd"
 
+from libc.stdlib cimport calloc, free
+from libcpp cimport bool
+
+
 cdef class Controller(Object):
 
-    cdef dict actions
+    cdef unsigned int* keydurations
 
-    # def __init__(self, dict actions):
-    def __init__(self, actions):
+    def __cinit__(self):
         super().__init__()
-        self.actions = actions
+        self.keydurations = <unsigned int*>calloc(323, sizeof(unsigned int))
+
+    def __dealloc__(self):
+        free(self.keydurations)
 
     cpdef void update(self, size_t delta_t):
-        keys = pg.key.get_pressed()
-        for key, pressed in enumerate(keys):
-            if key in self.actions:
-                self.actions[key](delta_t, pressed)
+        cdef size_t i
+        cdef bool[323] keys = pg.key.get_pressed()
+        for i in range(323):
+            if not keys[i]:
+                self.keydurations[i] = 0
+            else:
+                self.keydurations[i] += delta_t
 
 

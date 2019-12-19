@@ -27,6 +27,10 @@ cpdef int main():
     cdef int window_width = config.getint("WINDOW", "width")
     cdef int window_height = config.getint("WINDOW", "height")
 
+    hide_mouse = config.getboolean("WINDOW", "hide_mouse") \
+                 or (config.getboolean("WINDOW", "hide_mouse_if_fullscreen") and fullscreen)
+    pg.mouse.set_visible(not hide_mouse)
+
     if fullscreen:
         screen = pg.display.set_mode((window_width, window_height), pg.FULLSCREEN)
     else:

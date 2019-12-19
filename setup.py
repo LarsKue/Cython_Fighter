@@ -37,7 +37,7 @@ setup(
     url="https://github.com/LarsKue/Cython_Fighter",
     ext_modules=cythonize(extensions,
                           annotate=True,
-                          compiler_directives={"language_level": "3"},
+                          compiler_directives={"language_level": "3", "profile": "True", "linetrace": "True"},
                           force=True  # for debugging, forces recompiling all files
                           ),
     requires=["Cython"]
