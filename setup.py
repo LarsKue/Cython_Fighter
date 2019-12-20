@@ -23,6 +23,20 @@ if not os.path.isfile("run.py"):
 if not os.path.isdir("cppsrc/"):
     os.mkdir("cppsrc/")
 
+# we need to do some hacky file exclusions to freely include pxd's everywhere
+# so generate a main file
+python_definitions = glob_files("pysrc/**.pxd", recursive=True)
+
+with open("pysrc/main.pyx", "w+") as mainfile:
+    mainfile.write("# distutils: language = c++\n\n")
+    for filepath in python_definitions:
+        filename = os.path.basename(filepath)
+        mainfile.write("DEF " + module_name.upper() + "_" + filename.replace(".", "_").upper() + " = 0\n")
+
+    mainfile.write("\n")
+    mainfile.write("include \"main.pxd\"")
+    mainfile.write("\n")
+
 python_sources = glob_files("pysrc/**.pyx", recursive=True)
 cpp_sources = glob_files("cppsrc/**.cpp", recursive=True)
 

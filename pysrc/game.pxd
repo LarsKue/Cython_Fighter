@@ -1,55 +1,57 @@
 
-from libcpp cimport bool
+IF CYTHON_FIGHTER_GAME_PXD == 0:
+    DEF CYTHON_FIGHTER_GAME_PXD = 1
 
-import pygame as pg
 
-cimport cython
+    import pygame as pg
 
-# from om cimport OM
+    from libcpp cimport bool
 
-include "player.pxd"
+    include "om.pxd"
+    include "player.pxd"
 
-cdef class Game:
 
-    cdef config
-    cdef screen
-    cdef OM om
-    cdef clock
-    cdef size_t maxfps
+    cdef class Game:
 
-    def __init__(self, config, screen, *, maxfps=0):
-        self.config = config
-        self.screen = screen
-        self.om = OM()
-        self.clock = pg.time.Clock()
-        self.maxfps = self.config.getint("WINDOW", "maxfps")
+        cdef config
+        cdef screen
+        cdef OM om
+        cdef clock
+        cdef size_t maxfps
 
-    cpdef void run(self):
+        def __init__(self, config, screen, *, maxfps=0):
+            self.config = config
+            self.screen = screen
+            self.om = OM()
+            self.clock = pg.time.Clock()
+            self.maxfps = self.config.getint("WINDOW", "maxfps")
 
-        self.om.add_object(Player("assets/textures/player.png"))
+        cpdef void run(self):
 
-        cdef size_t i = 0
-        cdef size_t t = 0
-        cdef size_t dt
-        cdef list events
-        cdef bool display_fps = self.config.getboolean("STATISTICS", "display_fps")
-        while True:
-            dt = self.clock.tick(self.maxfps)
-            i += 1
-            t += dt
-            if t >= 1000 and display_fps:
-                print("FPS: {:.2f}".format(i * 1000 / t, 2))
-                i = 0
-                t = 0
+            self.om.add_object(Player("assets/textures/player.png"))
 
-            events = pg.event.get()
+            cdef size_t i = 0
+            cdef size_t t = 0
+            cdef size_t dt
+            cdef list events
+            cdef bool display_fps = self.config.getboolean("STATISTICS", "display_fps")
+            while True:
+                dt = self.clock.tick(self.maxfps)
+                i += 1
+                t += dt
+                if t >= 1000 and display_fps:
+                    print("FPS: {:.2f}".format(i * 1000 / t, 2))
+                    i = 0
+                    t = 0
 
-            for event in events:
-                if event.type == pg.QUIT:
-                    return
-                if event.type == pg.KEYDOWN:
-                    if event.key == pg.K_ESCAPE:
+                events = pg.event.get()
+
+                for event in events:
+                    if event.type == pg.QUIT:
                         return
+                    if event.type == pg.KEYDOWN:
+                        if event.key == pg.K_ESCAPE:
+                            return
 
-            self.om.update(dt)
-            self.om.draw(self.screen)
+                self.om.update(dt)
+                self.om.draw(self.screen)
