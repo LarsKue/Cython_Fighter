@@ -14,6 +14,8 @@ def glob_files(*args, **kwargs):
 
 module_name = "Cython_Fighter"
 
+module_name = module_name.replace(".", "_").replace("-", "_")
+
 # create the run.py file
 if not os.path.isfile("run.py"):
     with open("run.py", "w+") as runfile:
