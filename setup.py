@@ -37,8 +37,8 @@ setup(
     url="https://github.com/LarsKue/Cython_Fighter",
     ext_modules=cythonize(extensions,
                           annotate=True,
-                          compiler_directives={"language_level": "3", "profile": "True", "linetrace": "True"},
+                          compiler_directives={"language_level": "3", "profile": "False", "linetrace": "False"},
                           force=True  # for debugging, forces recompiling all files
                           ),
-    requires=["Cython"]
+    requires=["Cython", 'pygame']
 )

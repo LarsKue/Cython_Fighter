@@ -53,9 +53,3 @@ cdef class Game:
 
             self.om.update(dt)
             self.om.draw(self.screen)
-
-
-
-
-
-
