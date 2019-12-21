@@ -7,7 +7,7 @@ IF CYTHON_FIGHTER_GAME_PXD == 0:
 
     from libcpp cimport bool
 
-    include "om.pxd"
+    include "managers.pxd"
     include "player.pxd"
 
 
@@ -15,7 +15,9 @@ IF CYTHON_FIGHTER_GAME_PXD == 0:
 
         cdef config
         cdef screen
-        cdef OM om
+        cdef OM om  # Object Manager
+        cdef SM sm  # Surface Manager
+        cdef AM am  # Animation Manager
         cdef clock
         cdef size_t maxfps
 
@@ -23,12 +25,15 @@ IF CYTHON_FIGHTER_GAME_PXD == 0:
             self.config = config
             self.screen = screen
             self.om = OM()
+            self.sm = SM()
+            self.am = AM()
             self.clock = pg.time.Clock()
             self.maxfps = self.config.getint("WINDOW", "maxfps")
 
         cpdef void run(self):
 
-            self.om.add_object(Player("assets/textures/player.png"))
+            player_animation = self.am.add("assets/animations/player_idle.png", AnimationID.aPlayer, 8, 10)
+            self.om.add(Player(player_animation))
 
             cdef size_t i = 0
             cdef size_t t = 0

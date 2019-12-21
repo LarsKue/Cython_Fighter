@@ -28,9 +28,13 @@ IF CYTHON_FIGHTER_OM_PXD == 0:
             self.objects = []
             self.keys = Keys()
 
-        cpdef void add_object(self, Object ob):
+        cpdef void add(self, Object ob):
             self.objects.append(ob)
 
+        cpdef void remove(self, Object ob):
+            self.objects.remove(ob)
+
+        # TODO: dirty rects (see https://www.pygame.org/docs/tut/newbieguide.html )
         cpdef void update(self, size_t delta_t):
             # we need to ensure the keys are updated prior to object updating
             self.keys.update(delta_t)
@@ -47,4 +51,4 @@ IF CYTHON_FIGHTER_OM_PXD == 0:
             for o in self.objects:
                 o.draw(screen)
 
-            pg.display.update()
+            pg.display.flip()

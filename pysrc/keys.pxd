@@ -30,3 +30,6 @@ IF CYTHON_FIGHTER_KEYS_PXD == 0:
                     self.durations[i] = 0
                 else:
                     self.durations[i] += delta_t
+
+        cpdef bool pressed(self, size_t key):
+            return self.durations[key] > 0
