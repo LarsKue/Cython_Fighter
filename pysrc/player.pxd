@@ -5,9 +5,8 @@ IF CYTHON_FIGHTER_PLAYER_PXD == 0:
 
     import pygame as pg
 
-    include "om.pxd"
-    include "sm.pxd"
-    include "physics.pxd"
+    include "managers/managers.pxd"
+    include "math/physics.pxd"
     include "animation.pxd"
 
 

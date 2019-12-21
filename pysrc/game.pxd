@@ -7,7 +7,7 @@ IF CYTHON_FIGHTER_GAME_PXD == 0:
 
     from libcpp cimport bool
 
-    include "managers.pxd"
+    include "managers/managers.pxd"
     include "player.pxd"
 
 

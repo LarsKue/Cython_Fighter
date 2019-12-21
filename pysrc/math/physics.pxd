@@ -7,7 +7,7 @@ IF CYTHON_FIGHTER_PHYSICS_PXD == 0:
 
     from libcpp cimport bool
 
-    include "om.pxd"
+    include "../managers/om.pxd"
     include "Vec2.pxd"
 
 

@@ -8,8 +8,8 @@ IF CYTHON_FIGHTER_ANIMATION_PXD == 0:
 
     from libcpp cimport bool
 
-    include "managers.pxd"
-    include "vec2.pxd"
+    include "managers/managers.pxd"
+    include "math/vec2.pxd"
 
 
     cdef class Animation:

@@ -5,11 +5,7 @@ from distutils.extension import Extension
 # Build With: python setup.py build_ext --inplace
 
 import os
-from glob import glob
-
-
-def glob_files(*args, **kwargs):
-    return list(filter(os.path.isfile, glob(*args, **kwargs)))
+from pathlib import Path
 
 
 module_name = "Cython_Fighter"
@@ -27,7 +23,7 @@ if not os.path.isdir("cppsrc/"):
 
 # we need to do some hacky file exclusions to freely include pxd's everywhere
 # so generate a main file
-python_definitions = glob_files("pysrc/**.pxd", recursive=True)
+python_definitions = list(str(x) for x in Path("pysrc").rglob("*.pxd"))
 
 with open("pysrc/main.pyx", "w+") as mainfile:
     mainfile.write("# distutils: language = c++\n\n")
@@ -39,8 +35,8 @@ with open("pysrc/main.pyx", "w+") as mainfile:
     mainfile.write("include \"main.pxd\"")
     mainfile.write("\n")
 
-python_sources = glob_files("pysrc/**.pyx", recursive=True)
-cpp_sources = glob_files("cppsrc/**.cpp", recursive=True)
+python_sources = list(str(x) for x in Path("pysrc").rglob("*.pyx"))
+cpp_sources = list(str(x) for x in Path("cppsrc").rglob("*.cpp"))
 
 print("Python Sources:", python_sources)
 print("C++ Sources:   ", cpp_sources)

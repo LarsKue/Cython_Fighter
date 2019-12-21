@@ -8,7 +8,7 @@ IF CYTHON_FIGHTER_AM_PXD == 0:
 
     import pygame as pg
 
-    include "utils.pxd"
+    include "../math/utils.pxd"
 
     
     cdef enum AnimationID:
