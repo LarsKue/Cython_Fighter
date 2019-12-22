@@ -33,6 +33,7 @@ IF CYTHON_FIGHTER_GAME_PXD == 0:
         cpdef void run(self):
 
             player_animation = self.am.add("assets/animations/player_idle.png", AnimationID.aPlayer, 8, 10)
+            outline_test = self.am.add("assets/glow/player_idle.2.255.204.0.255.png", AnimationID.aOutlineTest, 8, 10)
             self.om.add(Player(player_animation))
 
             cdef size_t i = 0

@@ -13,6 +13,7 @@ IF CYTHON_FIGHTER_AM_PXD == 0:
     
     cdef enum AnimationID:
         aPlayer,
+        aOutlineTest,
 
 
     cdef class AnimData:
