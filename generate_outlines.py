@@ -1,6 +1,6 @@
 
 # Generate outlines for textures and animations
-# WARNING: Animations *must* have their number of frames in the filename as follows:
+# NOTE: Animations *must* have their number of frames in the filename as follows:
 # path/to/image/filename.#frames.png
 
 from PIL import Image
@@ -82,7 +82,6 @@ def main():
 
         if "animations" in str(filepath):
             frames = numframes(filepath)
-            print(frames)
         else:
             frames = 1
 
