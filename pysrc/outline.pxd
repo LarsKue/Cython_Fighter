@@ -71,6 +71,8 @@ IF CYTHON_FIGHTER_OUTLINE_PXD == 0:
 
             # TODO: Fix
             # TODO: Performance!
+            # Consider if this is even worth it (doable with static textures before compile time)
+            # Reuse this code to make a script that creates an outline texture for all textures in assets
 
             for i in range(len(data)):
                 for j in range(len(data[0])):
