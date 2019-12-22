@@ -10,6 +10,8 @@ IF CYTHON_FIGHTER_MAIN_PXD == 0:
 
     include "game.pxd"
 
+    include "utility/color.pxd"
+
 
     cpdef int main():
 

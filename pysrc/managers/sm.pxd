@@ -24,7 +24,7 @@ IF CYTHON_FIGHTER_SM_PXD == 0:
             if surface_id in self.__surfaces:
                 raise ValueError(f"\nDuplicate Surface ID: {surface_id}\n"
                                  f"File: {filename}")
-            self.__surfaces[surface_id] = pg.image.load(filename).convert()
+            self.__surfaces[surface_id] = pg.image.load(filename).convert_alpha()
 
         cdef object get(self, SurfaceID surface_id):
             return self.__surfaces[surface_id]

@@ -8,7 +8,7 @@ IF CYTHON_FIGHTER_AM_PXD == 0:
 
     import pygame as pg
 
-    include "../math/utils.pxd"
+    include "../utility/utils.pxd"
 
     
     cdef enum AnimationID:
@@ -16,7 +16,7 @@ IF CYTHON_FIGHTER_AM_PXD == 0:
 
 
     cdef class AnimData:
-        cdef surface
+        cdef public surface
         cdef unsigned int frames
         cdef unsigned int frameheight
         cdef unsigned int update_n
@@ -44,8 +44,8 @@ IF CYTHON_FIGHTER_AM_PXD == 0:
                                  f"frames    : {frames}\n"
                                  f"update_n  : {update_n}")
 
-            surface = pg.image.load(filename).convert()
-            cdef (size_t, size_t) size = surface.get_rect().size
+            surface = pg.image.load(filename).convert_alpha()
+            cdef (size_t, size_t) size = surface.get_size()
             if not size[1] % frames == 0:
                 raise ValueError("\nInvalid Source Image given for Animation:\n"
                                  f"Image : {filename}\n"

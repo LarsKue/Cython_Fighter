@@ -52,5 +52,5 @@ setup(
                           compiler_directives={"language_level": "3", "profile": "False", "linetrace": "False"},
                           force=True  # for debugging, forces recompiling all files
                           ),
-    requires=["Cython", 'pygame']
+    requires=["Cython", 'pygame', 'numpy']
 )

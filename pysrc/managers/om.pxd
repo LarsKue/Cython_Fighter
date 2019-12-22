@@ -44,7 +44,7 @@ IF CYTHON_FIGHTER_OM_PXD == 0:
                 o.update(delta_t, self.keys)
 
         cpdef void draw(self, screen):
-            screen.fill((0, 0, 0))
+            screen.fill((125, 255, 0))
 
             # draw objects here
             cdef Object o

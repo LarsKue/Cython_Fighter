@@ -9,12 +9,12 @@ IF CYTHON_FIGHTER_ANIMATION_PXD == 0:
     from libcpp cimport bool
 
     include "managers/managers.pxd"
-    include "math/vec2.pxd"
+    include "utility/vec2.pxd"
 
 
     cdef class Animation:
 
-        cdef AnimData data
+        cdef public AnimData data
         cdef unsigned int frame
         cdef unsigned int __n
 
@@ -32,5 +32,9 @@ IF CYTHON_FIGHTER_ANIMATION_PXD == 0:
                 self.frame %= self.data.frames
 
         cpdef void draw(self, screen, double x, double y, bool flipx = False, bool flipy = False):
-            screen.blit(pg.transform.flip(self.data.surface, flipx, flipy), (x, y), area=(0, self.frame * self.data.frameheight, self.data.surface.get_rect().w, self.data.frameheight))
+            screen.blit(pg.transform.flip(self.data.surface, flipx, flipy), (x, y), area=(0, self.frame * self.data.frameheight, self.data.surface.get_width(), self.data.frameheight))
+
+
+        cpdef object get_current_frame(self):
+            return self.data.surface.subsurface(pg.Rect(0, self.frame * self.data.frameheight, self.data.surface.get_width(), self.data.frameheight)).copy()
     
