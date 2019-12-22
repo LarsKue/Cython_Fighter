@@ -132,9 +132,9 @@ dmypy.json
 .idea/
 
 # Cython generated files
-pysrc/*.cpp
-pysrc/*.html
-pysrc/*.c
+pysrc/**.cpp
+pysrc/**.html
+pysrc/**.c
 
 # profiling files
 *.prof
