@@ -15,7 +15,7 @@ module_name = module_name.replace(".", "_").replace("-", "_")
 # create the run.py file
 if not os.path.isfile("run.py"):
     with open("run.py", "w+") as runfile:
-        runfile.write(f"\nfrom os import system\n\nif system(\"python setup.py build_ext --inplace\") is 0:\n    import {module_name}\n    {module_name}.main()\n")
+        runfile.write(f"\nfrom os import system\n\nif system(\"python3 setup.py build_ext --inplace\") is 0:\n    import {module_name}\n    {module_name}.main()\n")
 
 # create cppsrc directory because git doesn't like empty directories
 if not os.path.isdir("cppsrc/"):
@@ -41,7 +41,7 @@ cpp_sources = list(str(x) for x in Path("cppsrc").rglob("*.cpp"))
 print("Python Sources:", python_sources)
 print("C++ Sources:   ", cpp_sources)
 
-extensions = [Extension(module_name, python_sources + cpp_sources, include_dirs=["cppsrc/"])]
+extensions = [Extension(module_name, python_sources + cpp_sources, include_dirs=["cppsrc/"], extra_compile_args=["-std=c++11"], extra_link_args=["-std=c++11"])]
 
 setup(
     name=module_name,

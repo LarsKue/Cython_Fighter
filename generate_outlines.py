@@ -2,6 +2,7 @@
 # Generate outlines for textures and animations
 # NOTE: Animations *must* have their number of frames in the filename as follows:
 # path/to/image/filename.#frames.png
+# Animations must also be in vertical format
 
 from PIL import Image
 import numpy as np
@@ -20,20 +21,44 @@ def numframes(filename):
     return int(fne[fne.rfind(".") + 1:])
 
 
-def pad_frames(image, frames, weight):
+def pad_image(image, weight):
+    return np.pad(image, [[weight, weight], [weight, weight], [0, 0]])
+
+
+def split_frames(image, frames):
     height = image.shape[0]
     if height % frames != 0:
         raise ValueError("Invalid Frames!")
     frameheight = height // frames
-    # image = np.pad(image, [[0, 0], [weight, weight], [0, 0]], constant_values=0)
-    image = np.insert(image, [0, -1], [0], axis=1)
-    image = np.insert(image, 2 * weight * [frameheight * i for i in range(frames + 1)], 0, axis=0)
-    return image
+    for i in range(frames):
+        yield image[i * frameheight: (i + 1) * frameheight]
 
 
-def get_outline_pixels(image, weight):
+def pad_frames(image, frames, weight):
+
+    result = None
+
+    # split the image into its frames
+    for frame in split_frames(image, frames):
+        # pad each frame with transparent pixels in all directions
+        frame = pad_image(frame, weight)
+
+        # put the image back together
+        if result is None:
+            result = frame
+        else:
+            result = np.concatenate([result, frame], axis=0)
+
+    return result
+
+
+def get_outline_pixels(image, weight, fill):
     for i in range(len(image)):
         for j in range(len(image[0])):
+            if image[i][j].any():
+                if fill:
+                    yield (i, j)
+                continue
             bounds = (
                 max(0, i - weight), min(len(image), i + weight + 1), max(0, j - weight),
                 min(len(image[0]), j + weight + 1))
@@ -41,12 +66,13 @@ def get_outline_pixels(image, weight):
                 yield (i, j)
 
 
-def add_outlines(image, weight, colors):
+def get_outlines(image, weight, colors, fill):
+    result = np.zeros_like(image)
     for color in colors:
-        for (i, j) in get_outline_pixels(image, weight):
-            image[i][j] = color
+        for (i, j) in get_outline_pixels(image, weight, fill):
+            result[i][j] = color
 
-        yield image
+        yield result
 
 
 def unfill_image(image, orig_image, weight):
@@ -60,13 +86,12 @@ def main():
     weights = [1, 2, 3]
     colors = {"white": [255, 255, 255, 255], "orange": [255, 204, 0, 255], "cyan": [0, 204, 255, 255]}
 
-    target_dir = pathlib.Path("assets\\glow")
+    target_dir = pathlib.Path("assets/glow")
 
-    # turning this off will require always rendering the outlines behind the objects they should outline
-    # but may greatly speed up the generation process
-    # will decolor any pixels that aren't transparent in the original image
-    unfill = True
+    # whether the outline will be filled
+    fill = False
 
+    # if True, deletes all images in glow prior to execution
     reset_all = True
 
     if reset_all:
@@ -88,16 +113,11 @@ def main():
         fne = filename_no_ext(filepath)
 
         for weight in weights:
-            # copy and pad all frames with transparent pixels in all directions
-            image = pad_frames(orig_image.copy(), frames, weight)
 
-            # TODO: Process each frame individually? or account for the extra padding between frames
-            # for n in range(frames):
+            image = pad_frames(orig_image, frames, weight)
 
-            for outline_image, colorname in zip(add_outlines(image, weight, colors.values()), colors.keys()):
-                if unfill:
-                    unfill_image(outline_image, orig_image, weight)
-                Image.fromarray(outline_image).save(str(target_dir) + f"\\{fne}.{weight}.{colorname}.png")
+            for outline_image, colorname in zip(get_outlines(image, weight, colors.values(), fill), colors.keys()):
+                Image.fromarray(outline_image).save(str(target_dir) + f"/{fne}.{weight}.{colorname}.png")
 
 
 if __name__ == "__main__":

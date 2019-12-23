@@ -5,6 +5,8 @@
 #ifndef CYTHON_FIGHTER_UTILS_H
 #define CYTHON_FIGHTER_UTILS_H
 
+#include <algorithm>
+
 template<typename T>
 T square(const T& x) {
     return x * x;
