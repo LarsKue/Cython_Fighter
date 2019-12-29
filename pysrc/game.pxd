@@ -18,6 +18,7 @@ IF CYTHON_FIGHTER_GAME_PXD == 0:
         cdef OM om  # Object Manager
         cdef SM sm  # Surface Manager
         cdef AM am  # Animation Manager
+        cdef GM gm  # Outline Manager
         cdef clock
         cdef size_t maxfps
 
@@ -27,14 +28,16 @@ IF CYTHON_FIGHTER_GAME_PXD == 0:
             self.om = OM()
             self.sm = SM()
             self.am = AM()
+            self.gm = GM()
             self.clock = pg.time.Clock()
             self.maxfps = self.config.getint("WINDOW", "maxfps")
 
         cpdef void run(self):
 
-            player_animation = self.am.add("assets/animations/player_idle.png", AnimationID.aPlayer, 8, 10)
-            outline_test = self.am.add("assets/glow/player_idle.2.255.204.0.255.png", AnimationID.aOutlineTest, 8, 10)
-            self.om.add(Player(player_animation))
+            player_animation = self.am.add("assets/animations/player_idle.8.png", 10)
+            player_outline = self.gm.add_outline(player_animation, "cyan", 3, True)
+            self.om.add(Player(player_animation, player_outline))
+
 
             cdef size_t i = 0
             cdef size_t t = 0

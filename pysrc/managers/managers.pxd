@@ -8,3 +8,4 @@ IF CYTHON_FIGHTER_MANAGERS_PXD == 0:
     include "om.pxd"
     include "sm.pxd"
     include "am.pxd"
+    include "gm.pxd"
